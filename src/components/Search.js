@@ -4,11 +4,13 @@ import { axiosWithAuth } from "../utilities/axiosWithAuth";
 import { Button, OutlinedInput, Select, Checkbox, MenuItem, ListItemText, InputLabel } from "@mui/material";
 
 import DogContainer from "./DogContainer";
+import Pagination from "./Pagination";
 
 const Search = () => {
     const [breeds, setBreeds] = useState([]) //dropdown
     const [breedsSelect, setBreedsSelect] = useState([]) //selected within dropdown
-    const [dogResults, setDogResults] = useState({}) //store searched results (as object) to POST to get dogs
+    const [dogResults, setDogResults] = useState({'total':0}) //store searched results (as object) to POST to get dogs
+    const [currentPage, setCurrentPage] = useState(1); // pagination default
     
     // Get dog breeds (array)
     useEffect(() => {
@@ -31,15 +33,28 @@ const Search = () => {
     };
 
     // Run search
-    const onClick = () => {
+    const search = (pageNumber) => {
         axiosWithAuth()
-            .get(`/dogs/search`, { params: { breeds: breedsSelect } })
+            .get(`/dogs/search`, { params: { breeds: breedsSelect, sort: "breed:asc", from: ((pageNumber-1) * 25) } })
             .then(res => {
                 //todo: check res comes back fine, success messages with MUI element?
                 setDogResults(res.data) // re-render DogContainer if state changes
             })
             .catch(err => console.log({ err }));
     }
+    
+    // get first page of results
+    const onClick = () => {
+        search(1)
+        setCurrentPage(1)
+    }
+
+    const onPageChange = (pageNumber) => {
+        search(pageNumber)
+        setCurrentPage(pageNumber)
+    }
+
+
 
     return (
         <>
@@ -61,8 +76,8 @@ const Search = () => {
             >
                 { breeds.map((breed) => (
                     <MenuItem key={breed} value={breed}>
-                    <Checkbox checked={breedsSelect.indexOf(breed) > -1} />
-                    <ListItemText primary={breed} />
+                        <Checkbox checked={breedsSelect.indexOf(breed) > -1} />
+                            <ListItemText primary={breed} />
                     </MenuItem>
                 )) }
             </Select>
@@ -70,9 +85,14 @@ const Search = () => {
                 variant="contained"
                 onClick={onClick}
             >
-                search //todo: icon?
+                search
             </Button>
-            <DogContainer dogResults={dogResults} setDogResults={setDogResults}></DogContainer>   
+            <DogContainer dogResults={dogResults} setDogResults={setDogResults}></DogContainer>
+            <Pagination
+                total={dogResults.total}
+                currentPage={currentPage}
+                onPageChange={onPageChange}
+            />
         </>
     )
 }
@@ -82,5 +102,5 @@ export default Search;
 //TODO
 /**
  * icons
- * 
+ * sort by asc/desc + button
  */

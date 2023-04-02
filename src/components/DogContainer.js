@@ -1,9 +1,11 @@
 import { React, useEffect, useState } from "react";
 import { axiosWithAuth } from '../utilities/axiosWithAuth';
-import { Button, Card, CardActions, CardContent, CardMedia, Checkbox,Grid, Typography } from '@mui/material';
+import { Button, Card, CardActions, CardContent, CardMedia, Checkbox, Grid, Pagination, Typography, FormControlLabel, FormControl } from '@mui/material';
+import { Favorite, FavoriteBorder } from "@mui/icons-material";
 
 const DogContainer = props => {
     const [dogs, setDogs] = useState([]);
+    const [dogSelect, setDogSelect] = useState([]);
     
     // use search results to fetch queried dogs
     useEffect(() => {
@@ -12,6 +14,14 @@ const DogContainer = props => {
             .then(res => { setDogs(res.data); })
             .catch(err => console.log({ err }));
     }, [props.dogResults])
+
+    const handleChange = (e) => {
+        if (e.target.checked) {
+            setDogSelect([...dogSelect, e.target.id])
+          } else {
+            setDogSelect(dogSelect.filter(id => id !== e.target.id))
+          }
+    }
 
     return (
         <Grid
@@ -37,17 +47,18 @@ const DogContainer = props => {
                                 {dog.name}
                             </Typography>
                             <Typography variant="body2" color="text.secondary">
-                                Hi my name is ${dog.name}! I'm a(n) ${dog.age} year old ${dog.breed}. I'm at ${dog.zip_code}, come pick me up!
+                                My name is <b>{dog.name}</b>! I'm a(n) <b>{dog.age}</b> year old <b>{dog.breed}</b>. I'm at <b>{dog.zip_code}</b>, come pick me up!
                             </Typography>
                         </CardContent>
                         <CardActions>
-                            <Button size="small">Learn More!</Button>
+                            <Checkbox id={dog.id} onChange={handleChange} checked={dogSelect.indexOf(dog.id) > -1} icon={<FavoriteBorder />} checkedIcon={<Favorite />}/>
+                            <Typography variant="body2" color="text.secondary">Favorite</Typography>    
                         </CardActions>
                     </Card>
                 </Grid>
             )) }                    
 
-        </Grid>
+        </Grid>        
     )
 }
 
@@ -60,5 +71,5 @@ export default DogContainer;
  * detail page (component + routing)
  * randomized description greeting strings
  * conditional articles
- * month or year age?
+ * month or year age? less than year?
  */
