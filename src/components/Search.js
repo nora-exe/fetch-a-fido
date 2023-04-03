@@ -3,15 +3,16 @@ import { axiosWithAuth } from "../utilities/axiosWithAuth";
 
 import { Button, OutlinedInput, Select, Checkbox, MenuItem, ListItemText, InputLabel } from "@mui/material";
 
+import Dog from "./Dog";
 import DogContainer from "./DogContainer";
 import Pagination from "./Pagination";
 
 const Search = () => {
     const [breeds, setBreeds] = useState([]) //dropdown
     const [breedsSelect, setBreedsSelect] = useState([]) //selected within dropdown
-    const [dogResults, setDogResults] = useState({'total':0}) //store searched results (as object) to POST to get dogs
+    const [dogResults, setDogResults] = useState({'total': 0}) //store searched results (as object) to POST to get dogs
     const [currentPage, setCurrentPage] = useState(1); // pagination default
-    
+
     // Get dog breeds (array)
     useEffect(() => {
         axiosWithAuth()
@@ -41,24 +42,26 @@ const Search = () => {
                 setDogResults(res.data) // re-render DogContainer if state changes
             })
             .catch(err => console.log({ err }));
-    }
+    };
     
     // get first page of results
-    const onClick = () => {
+    const onSearch = () => {
         search(1)
         setCurrentPage(1)
-    }
+    };
 
+    // pagination
     const onPageChange = (pageNumber) => {
         search(pageNumber)
         setCurrentPage(pageNumber)
-    }
+    };
 
 
 
     return (
         <>
             <h2>Let's See Some Pups!</h2>
+            <body>Select breeds from the dropdown, mark your favorites, then click match! </body>
 
             <InputLabel id="multiple-checkbox-label">Breeds</InputLabel>
             <Select
@@ -83,11 +86,14 @@ const Search = () => {
             </Select>
             <Button
                 variant="contained"
-                onClick={onClick}
+                onClick={onSearch}
             >
                 search
             </Button>
-            <DogContainer dogResults={dogResults} setDogResults={setDogResults}></DogContainer>
+
+            <DogContainer dogResults={dogResults} setDogResults={setDogResults}>
+            </DogContainer>
+
             <Pagination
                 total={dogResults.total}
                 currentPage={currentPage}
@@ -95,7 +101,7 @@ const Search = () => {
             />
         </>
     )
-}
+};
 
 export default Search;
 
