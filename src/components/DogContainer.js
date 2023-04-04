@@ -3,8 +3,9 @@ import { axiosWithAuth } from "../utilities/axiosWithAuth";
 import Dog from "./Dog";
 // import { fetchDogs } from "../utilities/fetchDogs";
 
-import { Button, Box, Card, CardActions, CardContent, CardMedia, Checkbox, Grid, Modal, Typography } from '@mui/material';
-import { Favorite, FavoriteBorder } from "@mui/icons-material";
+import { Button, Card, CardActions, CardContent, CardMedia, Checkbox, Grid, Typography } from '@mui/material';
+import Favorite from "@mui/icons-material/Favorite";
+import FavoriteBorder from "@mui/icons-material/FavoriteBorder";
 
 const DogContainer = props => {
     const [dogs, setDogs] = useState([]);
@@ -66,9 +67,8 @@ const DogContainer = props => {
                 justifyContent="center"
                 alignItems="center"
             >
-
                 { dogs.map(dog => (
-                    <Grid item xs={10} sm={5} md={2}> 
+                    <Grid item xs={15} sm={7.5} md={5} lg={3} xl={3}> 
                         <Card>
                             <CardMedia
                                 component="img"
@@ -85,27 +85,21 @@ const DogContainer = props => {
                                 </Typography>
                             </CardContent>
                             <CardActions>
-                                <Checkbox id={dog.id} onChange={handleChange} checked={dogSelect.indexOf(dog.id) > -1} icon={<FavoriteBorder />} checkedIcon={<Favorite />}/>
+                                <Checkbox
+                                    id={dog.id}
+                                    onChange={handleChange}
+                                    checked={dogSelect.indexOf(dog.id) > -1}
+                                    icon={<FavoriteBorder />}
+                                    checkedIcon={<Favorite />}
+                                />
                                 <Typography variant="body2" color="text.secondary">Favorite</Typography>    
                             </CardActions>
                         </Card>
                     </Grid>
-                    
                 )) }                    
-
             </Grid>
         </>       
     )
 };
 
 export default DogContainer;
-
-//TODO
-/**
- * checkboxes
- * match func => navigates to dog detail page
- * detail page (component + routing)
- * randomized description greeting strings
- * conditional articles
- * month or year age? less than year?
- */

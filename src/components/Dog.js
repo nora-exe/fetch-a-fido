@@ -1,6 +1,9 @@
-import { React, useEffect, useState } from "react";
+import React from "react";
 // import { fetchDogs } from "../utilities/fetchDogs";
+
 import { Box, Modal, Typography } from '@mui/material';
+import PinDrop from '@mui/icons-material/PinDrop';
+import PermContactCalendar from '@mui/icons-material/PermContactCalendar';
 
 
 const Dog = props => {
@@ -23,10 +26,24 @@ const Dog = props => {
 			onClose={props.handleClose}
 		>
 		<Box sx={style}>
-			<Typography id="modal-match" variant="h6" component="h2">
+			<img src={props.dogMatch.img} alt={`picture of a ${props.dogMatch.breed} named ${props.dogMatch.name}`} />
+			<Typography id="modal-title" variant="h3" gutterBottom>
 				{props.dogMatch.name}
 			</Typography>
 			<Typography id="modal-modal-description">
+				<Typography variant="subtitle1" gutterBottom>
+					{props.dogMatch.breed}
+				</Typography>
+				<Typography variant="body1" gutterBottom>
+					<PermContactCalendar/>
+					&nbsp;<b>{props.dogMatch.age}</b> year(s) old
+					<br/>
+					<PinDrop/>
+					&nbsp;I'm at <b>{props.dogMatch.zip_code}</b>
+				</Typography>
+				<Typography variant="body2" gutterBottom>
+					I can't wait to meet you!
+				</Typography>	
 			</Typography>
 		</Box>
 		</Modal>
@@ -35,7 +52,3 @@ const Dog = props => {
 };
 
 export default Dog;
-
-// read IDs from state, POST to /match, returns random ID, route to dog/{query ID param}
-// read query param, POST ID to /dogs, render DOG ID object
-// 

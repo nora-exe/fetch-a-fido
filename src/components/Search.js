@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { axiosWithAuth } from "../utilities/axiosWithAuth";
 
-import { Button, OutlinedInput, Select, Checkbox, MenuItem, ListItemText, InputLabel } from "@mui/material";
+// MUI
+import { Autocomplete, Button, Checkbox, Chip, InputLabel, ListItemText, MenuItem, OutlinedInput, Select, TextField } from "@mui/material";
 
 import Dog from "./Dog";
 import DogContainer from "./DogContainer";
@@ -21,16 +22,11 @@ const Search = () => {
                 setBreeds(res.data);
             })
             .catch(err => console.log({ err }));
-    }, [])
+    }, []);
 
-    // Select to search
-    const handleChange = (event) => {
-        const {
-          target: { value },
-        } = event;
-        setBreedsSelect(
-          typeof value === 'string' ? value.split(',') : value,
-        );
+    // Set selected breeds to state
+    const handleChange = (event, value) => {
+        setBreedsSelect(value)
     };
 
     // Run search
@@ -56,34 +52,28 @@ const Search = () => {
         setCurrentPage(pageNumber)
     };
 
-
-
     return (
         <>
-            <h2>Let's See Some Pups!</h2>
-            <body>Select breeds from the dropdown, mark your favorites, then click match! </body>
+            <h2>Ready to See Some Pups?</h2>
+            <p>Type to filter by breed (you can choose more than 1!) then hit <b>search</b>. Mark your favorites, then <b>match</b> to meet your new best friend! </p>
 
-            <InputLabel id="multiple-checkbox-label">Breeds</InputLabel>
-            <Select
-                labelId="breed-multiple-checkbox-label"
-                id="breed-multiple-checkbox"
+            <Autocomplete
                 multiple
-                displayEmpty
-                value={breedsSelect}
+                id="tags-breeds"
+                options={breeds}
                 onChange={handleChange}
-                input={<OutlinedInput label="Breeds" />}
-                renderValue={(selected) => {
-                    if (selected.length === 0) { return <>Select breed(s)</>; }
-                    return selected.join(', ');
-                }}
+                renderInput={(params) => (
+                    <TextField
+                      {...params}
+                      variant="outlined"
+                      label="By Breed"
+                      placeholder="Start typing..."
+                    />
+                )}
             >
-                { breeds.map((breed) => (
-                    <MenuItem key={breed} value={breed}>
-                        <Checkbox checked={breedsSelect.indexOf(breed) > -1} />
-                            <ListItemText primary={breed} />
-                    </MenuItem>
-                )) }
-            </Select>
+            </Autocomplete>
+
+            
             <Button
                 variant="contained"
                 onClick={onSearch}
@@ -91,9 +81,10 @@ const Search = () => {
                 search
             </Button>
 
+
             <DogContainer dogResults={dogResults} setDogResults={setDogResults}>
             </DogContainer>
-
+            
             <Pagination
                 total={dogResults.total}
                 currentPage={currentPage}
@@ -104,9 +95,3 @@ const Search = () => {
 };
 
 export default Search;
-
-//TODO
-/**
- * icons
- * sort by asc/desc + button
- */
