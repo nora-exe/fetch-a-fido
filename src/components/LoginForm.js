@@ -1,9 +1,12 @@
 import React, { useState } from "react";
+
 import { useNavigate } from "react-router-dom";
 import { axiosWithAuth } from "../utilities/axiosWithAuth";
+
 import { Button, TextField } from "@mui/material";
 
-const LoginForm = () => {
+const LoginForm = (props) => {
+    
     const [login, setLogin] = useState({
         name: "",
         email: "",
@@ -18,20 +21,20 @@ const LoginForm = () => {
             [event.target.id]: event.target.value,
             canSubmit: (login.name !== "" && login.email !== "" && event.target.value !== "") ? true : false 
         })
-    }
+    };
 
     const _onSubmit = () => {
         axiosWithAuth()
             .post("/auth/login",
                 { name: login.name, email: login.email })
             .then(res => {
-                if (res.status = 200 ) { navigate('/search') }
-                else {
-                    //TODO stay on page with MUI error button
-                    console.log("invalid credentials");
-                }
-        })
-    }
+                if (res.status = 200 ) {
+                    props.setIsLoggedIn(true);
+                    navigate('/search')
+            }
+            })
+            .catch(err => console.log({ err }));
+    };
 
     return (
         <>
@@ -58,14 +61,6 @@ const LoginForm = () => {
             </Button>
         </>
     )
-}
+};
 
 export default LoginForm;
-
-//TODO LIST
-/**
- * canSubmit behavior - currently an issue with checking state and enabling/disabling submit button, maybe an async issue, maybe an issue with MUI component library possible UN/PWD minimum? don't have enough time to address but ideally just shouldn't be able to submit empty text fields, currently reading state 3x instead of twice I think, but reading and logging state fine
- * 
- * encrypt secrets ✔
- * 
-*/

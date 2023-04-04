@@ -1,14 +1,12 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { axiosWithAuth } from "../utilities/axiosWithAuth";
-
-// MUI
-import { Autocomplete, Button, Checkbox, Chip, InputLabel, ListItemText, MenuItem, OutlinedInput, Select, TextField } from "@mui/material";
-
-import Dog from "./Dog";
+import { Autocomplete, Button, TextField } from "@mui/material";
 import DogContainer from "./DogContainer";
 import Pagination from "./Pagination";
 
 const Search = () => {
+    const navigate = useNavigate();
     const [breeds, setBreeds] = useState([]) //dropdown
     const [breedsSelect, setBreedsSelect] = useState([]) //selected within dropdown
     const [dogResults, setDogResults] = useState({'total': 0}) //store searched results (as object) to POST to get dogs
@@ -34,8 +32,7 @@ const Search = () => {
         axiosWithAuth()
             .get(`/dogs/search`, { params: { breeds: breedsSelect, sort: "breed:asc", from: ((pageNumber-1) * 25) } })
             .then(res => {
-                //todo: check res comes back fine, success messages with MUI element?
-                setDogResults(res.data) // re-render DogContainer if state changes
+                setDogResults(res.data)
             })
             .catch(err => console.log({ err }));
     };
@@ -46,6 +43,16 @@ const Search = () => {
         setCurrentPage(1)
     };
 
+    // logout
+    const onLogout = () => {
+        axiosWithAuth()
+            .post(`/auth/logout`)
+            .then(res => {
+                if (res.status = 200) { navigate('/') }
+            })
+            .catch(err => console.log({ err }));
+    };
+
     // pagination
     const onPageChange = (pageNumber) => {
         search(pageNumber)
@@ -54,6 +61,13 @@ const Search = () => {
 
     return (
         <>
+            <Button
+                variant="outlined"
+                onClick={onLogout}
+            >
+                Logout
+            </Button>
+
             <h2>Ready to See Some Pups?</h2>
             <p>Type to filter by breed (you can choose more than 1!) then hit <b>search</b>. Mark your favorites, then <b>match</b> to meet your new best friend! </p>
 
@@ -82,7 +96,9 @@ const Search = () => {
             </Button>
 
 
-            <DogContainer dogResults={dogResults} setDogResults={setDogResults}>
+            <DogContainer
+                dogResults={dogResults}
+                setDogResults={setDogResults}>
             </DogContainer>
             
             <Pagination

@@ -1,6 +1,4 @@
 import React from "react";
-// import { fetchDogs } from "../utilities/fetchDogs";
-
 import { Box, Modal, Typography } from '@mui/material';
 import PinDrop from '@mui/icons-material/PinDrop';
 import PermContactCalendar from '@mui/icons-material/PermContactCalendar';

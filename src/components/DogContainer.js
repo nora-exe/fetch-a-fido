@@ -1,8 +1,6 @@
 import { React, useEffect, useState } from "react";
 import { axiosWithAuth } from "../utilities/axiosWithAuth";
 import Dog from "./Dog";
-// import { fetchDogs } from "../utilities/fetchDogs";
-
 import { Button, Card, CardActions, CardContent, CardMedia, Checkbox, Grid, Typography } from '@mui/material';
 import Favorite from "@mui/icons-material/Favorite";
 import FavoriteBorder from "@mui/icons-material/FavoriteBorder";
