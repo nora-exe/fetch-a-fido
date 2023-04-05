@@ -9,6 +9,7 @@ import {
   InputLabel,
   MenuItem,
   Select,
+  Stack,
   TextField,
 } from "@mui/material";
 import DogContainer from "./DogContainer";
@@ -21,20 +22,20 @@ const Search = () => {
   const [dogResults, setDogResults] = useState({ total: 0 }); //store searched results (as object) to POST to get dogs
   const [currentPage, setCurrentPage] = useState(1); // pagination default
   const [ageSelect, setAgeSelect] = useState({ ageMin: null, ageMax: null });
-  const [sortBy, setSortBy] = useState("name:asc");
+  const [sortBy, setSortBy] = useState();
 
-  var ageList = [];
-  for (var i = 0; i <= 20; i++) {
+  let ageList = [];
+  for (let i = 0; i <= 20; i++) {
     ageList.push(i.toString());
   }
 
   const sortOptions = [
-    { text: "Breed A-Z", sortBy: "breed:asc" },
-    { text: "Breed Z-A", sortBy: "breed:asc" },
-    { text: "Name A-Z", sortBy: "name:asc" },
-    { text: "Name Z-A", sortBy: "name:desc" },
-    { text: "Youngest First", sortBy: "age:asc" },
-    { text: "Oldest First", sortBy: "age:desc" },
+    { title: "Name A-Z", sortBy: "name:asc" },
+    { title: "Name Z-A", sortBy: "name:desc" },
+    { title: "Youngest First", sortBy: "age:asc" },
+    { title: "Oldest First", sortBy: "age:desc" },
+    { title: "Breed A-Z", sortBy: "breed:asc" },
+    { title: "Breed Z-A", sortBy: "breed:desc" },
   ];
 
   // Get dog breeds (array)
@@ -46,6 +47,12 @@ const Search = () => {
       })
       .catch((err) => console.log({ err }));
   }, []);
+
+  // Search on criteria update
+  useEffect(() => {
+    search(1);
+    setCurrentPage(1);
+  }, [breedsSelect, ageSelect, sortBy]);
 
   // Set selected breeds to state
   const handleBreedSelect = (event, value) => {
@@ -62,7 +69,10 @@ const Search = () => {
 
   // Sort Handling
   const handleSort = (event) => {
-    setSortBy(event.target.value)
+    setSortBy(
+      sortOptions.filter((option) => option.title == event.target.innerText)[0]
+        .sortBy
+    );
   };
 
   // Run search
@@ -85,12 +95,6 @@ const Search = () => {
         setDogResults(res.data);
       })
       .catch((err) => console.log({ err }));
-  };
-
-  // get first page of results
-  const onSearch = () => {
-    search(1);
-    setCurrentPage(1);
   };
 
   // logout
@@ -119,23 +123,23 @@ const Search = () => {
 
       <h2>Ready to See Some Pups?</h2>
       <p>
-        Type to filter by breed (you can choose more than 1!) then hit{" "}
-        <b>search</b>. Mark your favorites, then <b>match</b> to meet your new
-        best friend!{" "}
+        Type to filter by breed (you can choose more than 1!). Mark your favorites good bois (and girls), then <b>match</b> to meet your new
+        canine BFF!
       </p>
 
       <Grid
         container
-        columns={12}
+        columns={16}
         direction="row"
-        justifyContent="center"
+        justifyContent="flex-start"
         alignItems="center"
-        maxWidth={"50%"}
+        spacing={2}
       >
-        <Grid item xs={12} sm={6} md={6} lg={8} xl={8}>
+        <Grid item xs={16} sm={16} md={16} lg={8} xl={8}>
           <Autocomplete
-            multiple
             id="tags-breeds"
+            multiple
+            limitTags={2}
             options={breeds}
             onChange={handleBreedSelect}
             renderInput={(params) => (
@@ -143,31 +147,31 @@ const Search = () => {
                 {...params}
                 variant="outlined"
                 label="By Breed"
-                placeholder="Start typing..."
+                placeholder="Type here..."
               />
             )}
           ></Autocomplete>
         </Grid>
-        <Grid item xs={6} sm={3} md={3} lg={2} xl={2}>
+        <Grid item xs={8} sm={8} md={8} lg={2} xl={1.5}>
           <Autocomplete
             id="ageMin"
-            autoWidth
             options={ageList}
             onChange={handleMinAge}
+            // autoWidth
+            // sx={{ width: '15%' }}
             renderInput={(params) => (
               <TextField
                 {...params}
                 variant="outlined"
                 label="Min Age"
-                placeholder="Number"
+                placeholder="Age"
               />
             )}
           ></Autocomplete>
         </Grid>
-        <Grid item xs={6} sm={3} md={3} lg={2} xl={2}>
+        <Grid item xs={8} sm={8} md={8} lg={2} xl={1.5}>
           <Autocomplete
             id="ageMax"
-            autoWidth
             options={ageList}
             onChange={handleMaxAge}
             renderInput={(params) => (
@@ -175,28 +179,28 @@ const Search = () => {
                 {...params}
                 variant="outlined"
                 label="Max Age"
-                placeholder="Number"
+                placeholder="Age"
+              />
+            )}
+          ></Autocomplete>
+        </Grid>
+        <Grid item xs={16} sm={16} md={16} lg={3} xl={3}>
+          <Autocomplete
+            id="sortBy"
+            options={sortOptions}
+            getOptionLabel={(option) => option.title}
+            onChange={handleSort}
+            renderInput={(params) => (
+              <TextField
+                {...params}
+                variant="outlined"
+                label="Sort By"
+                placeholder="Name"
               />
             )}
           ></Autocomplete>
         </Grid>
       </Grid>
-      <br />
-      <FormControl>
-        <InputLabel id="select-sort">Sort By</InputLabel>
-        <Select
-          label="Sort By"
-          value={sortBy}
-          onChange={handleSort}
-        >
-          {sortOptions.map((item) => (
-            <MenuItem value={item.sortBy}>{item.text}</MenuItem>
-          ))}
-        </Select>
-      </FormControl>
-      <Button variant="contained" onClick={onSearch}>
-        search
-      </Button>
 
       <DogContainer
         dogResults={dogResults}
