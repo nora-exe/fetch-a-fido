@@ -4,13 +4,9 @@ import { axiosWithAuth } from "../utilities/axiosWithAuth";
 import {
   Autocomplete,
   Button,
-  FormControl,
   Grid,
-  InputLabel,
-  MenuItem,
-  Select,
-  Stack,
   TextField,
+  Typography,
 } from "@mui/material";
 import DogContainer from "./DogContainer";
 import Pagination from "./Pagination";
@@ -19,7 +15,7 @@ const Search = () => {
   const navigate = useNavigate();
   const [breeds, setBreeds] = useState([]); //dropdown
   const [breedsSelect, setBreedsSelect] = useState([]); //selected within dropdown
-  const [dogResults, setDogResults] = useState({ total: 0 }); //store searched results (as object) to POST to get dogs
+  const [dogResults, setDogResults] = useState({ resultIds: [], total: 0 }); //store searched results (as object) to POST to get dogs
   const [currentPage, setCurrentPage] = useState(1); // pagination default
   const [ageSelect, setAgeSelect] = useState({ ageMin: null, ageMax: null });
   const [sortBy, setSortBy] = useState();
@@ -28,6 +24,10 @@ const Search = () => {
   for (let i = 0; i <= 20; i++) {
     ageList.push(i.toString());
   }
+
+  const viewResultsStart = () => {
+    return (currentPage - 1) * 25 + 1;
+  };
 
   const sortOptions = [
     { title: "Name A-Z", sortBy: "name:asc" },
@@ -123,7 +123,8 @@ const Search = () => {
 
       <h2>Ready to See Some Pups?</h2>
       <p>
-        Type to filter by breed (you can choose more than 1!). Mark your favorites good bois (and girls), then <b>match</b> to meet your new
+        Type to filter by breed (you can choose more than 1!). Mark your
+        favorites good bois (and girls), then <b>match</b> to meet your new
         canine BFF!
       </p>
 
@@ -142,6 +143,7 @@ const Search = () => {
             limitTags={2}
             options={breeds}
             onChange={handleBreedSelect}
+            defaultValue={breeds[87]}
             renderInput={(params) => (
               <TextField
                 {...params}
@@ -187,6 +189,7 @@ const Search = () => {
         <Grid item xs={16} sm={16} md={16} lg={3} xl={3}>
           <Autocomplete
             id="sortBy"
+            disableClearable
             options={sortOptions}
             getOptionLabel={(option) => option.title}
             onChange={handleSort}
@@ -201,6 +204,12 @@ const Search = () => {
           ></Autocomplete>
         </Grid>
       </Grid>
+
+      <Typography>
+        Viewing {viewResultsStart()} -{" "}
+        {dogResults?.resultIds.length + viewResultsStart() - 1} of{" "}
+        {dogResults?.total} results
+      </Typography>
 
       <DogContainer
         dogResults={dogResults}

@@ -39,11 +39,16 @@ const DogContainer = (props) => {
       .then((res) => {
         setDogs(
           data.map((item) => {
-            let locationMatch = res.data.filter(
-              (loc) => loc.zip_code == item.zip_code
+            let locationMatch = res.data.filter((loc) =>
+              loc !== null ? loc.zip_code == item.zip_code : false
             )[0];
-            item["city"] = locationMatch.city;
-            item["state"] = locationMatch.state;
+            if (locationMatch == undefined) {
+              item["city"] = "Zip Code";
+              item["state"] = item.zip_code;
+            } else {
+              item["city"] = locationMatch.city;
+              item["state"] = locationMatch.state;
+            }
             return item;
           })
         );
@@ -100,7 +105,7 @@ const DogContainer = (props) => {
         alignItems="stretch"
       >
         {dogs.map((dog) => (
-          <Grid item xs={15} sm={7.5} md={5} lg={3} xl={3}>
+          <Grid item xs={7.5} sm={7.5} md={5} lg={3} xl={3}>
             <Card sx={{ height: "100%" }}>
               <CardMedia
                 component="img"
