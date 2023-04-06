@@ -243,10 +243,10 @@ const Search = () => {
         justifyContent="space-evenly"
         alignItems="center"
         spacing={2}
-        sx={{ my: "1%", mx:0 }}
+        sx={{ my: "1%", mx: 0 }}
       >
         <Grid item xs={10} sm={10} md={5} lg={5} xl={5} align="center">
-          <Typography  variant="subtitle2" color={'#5F6CAF'}>
+          <Typography variant="subtitle2" color={"#FFB677"}>
             Viewing {viewResultsStart()} -{" "}
             {dogResults?.resultIds.length + viewResultsStart() - 1} of{" "}
             {dogResults?.total} results
@@ -274,7 +274,7 @@ const Search = () => {
           justifyContent="space-evenly"
           alignItems="center"
           spacing={2}
-          sx={{ my: "3%", mx:0 }}
+          sx={{ my: "3%", mx: 0 }}
         >
           <Grid item xs={10} sm={10} md={5} lg={5} xl={5} align="center">
             <Typography variant="subtitle2">

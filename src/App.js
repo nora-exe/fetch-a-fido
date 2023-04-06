@@ -20,7 +20,7 @@ const App = () => {
         <Route
           path="/search"
           element={
-            <Protected isLoggedIn={isLoggedIn}>          
+            <Protected isLoggedIn={isLoggedIn}>
               <Search />
             </Protected>
           }

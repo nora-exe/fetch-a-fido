@@ -23,44 +23,39 @@ const Dog = (props) => {
   };
 
   return (
-    
-        <Modal open={props.open} onClose={props.handleClose}>
-          <Card sx={style}>
-            <CardMedia
-              component="img"
-              image={props.dogMatch.img}
-              alt={`picture of a ${props.dogMatch.breed} named ${props.dogMatch.name}`}
-              sx={{ height: 350 }}
-            />
-            <CardContent>
-              <Typography id="modal-title" variant="h3">
-                {props.dogMatch.name}
-              </Typography>
-              <Typography id="modal-modal-description">
-                <Typography
-                  variant="subtitle1"
-                  gutterBottom
-                >
-                  {props.dogMatch.breed}
-                </Typography>
-                <Typography variant="body1" gutterBottom>
-                  <PermContactCalendar />
-                  &nbsp;<b>{props.dogMatch.age}</b> year(s) old
-                  <br />
-                  <PinDrop />
-                  &nbsp;I live in{" "}
-                  <b>
-                    {props.dogMatch.city}, {props.dogMatch.state}
-                  </b>
-                </Typography>
-                <Typography variant="subtitle1" gutterBottom>
-                  I can't wait to meet you!
-                </Typography>
-              </Typography>
-            </CardContent>
-          </Card>
-        </Modal>
-      
+    <Modal open={props.open} onClose={props.handleClose}>
+      <Card sx={style}>
+        <CardMedia
+          component="img"
+          image={props.dogMatch.img}
+          alt={`picture of a ${props.dogMatch.breed} named ${props.dogMatch.name}`}
+          sx={{ height: 350 }}
+        />
+        <CardContent>
+          <Typography id="modal-title" variant="h3">
+            {props.dogMatch.name}
+          </Typography>
+          <Typography id="modal-modal-description">
+            <Typography variant="subtitle1" gutterBottom>
+              {props.dogMatch.breed}
+            </Typography>
+            <Typography variant="body1" gutterBottom>
+              <PermContactCalendar />
+              &nbsp;<b>{props.dogMatch.age}</b> year(s) old
+              <br />
+              <PinDrop />
+              &nbsp;I live in{" "}
+              <b>
+                {props.dogMatch.city}, {props.dogMatch.state}
+              </b>
+            </Typography>
+            <Typography variant="subtitle1" gutterBottom>
+              I can't wait to meet you!
+            </Typography>
+          </Typography>
+        </CardContent>
+      </Card>
+    </Modal>
   );
 };
 

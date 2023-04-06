@@ -92,8 +92,13 @@ const DogContainer = (props) => {
   return (
     <>
       <Box maxWidth>
-        <Container maxWidth={false} sx={{ width: '90%'}}>
-          <Button variant="outlined" color="warning" onClick={onMatch} sx={{ my: '2%' }}>
+        <Container maxWidth={false} sx={{ width: "90%" }}>
+          <Button
+            variant="outlined"
+            color="warning"
+            onClick={onMatch}
+            sx={{ my: "2%" }}
+          >
             match me!
           </Button>
           <Dog dogMatch={dogMatch} open={open} handleClose={handleClose} />
@@ -104,10 +109,10 @@ const DogContainer = (props) => {
             direction="row"
             justifyContent="space-around"
             alignItems="stretch"
-            sx={{mb: '5%'}}
+            sx={{ mb: "5%" }}
           >
             {dogs.map((dog) => (
-              <Grid item xs={7.5} sm={7.5} md={5} lg={3} xl={3} >
+              <Grid item xs={7.5} sm={7.5} md={5} lg={3} xl={3}>
                 <Card>
                   <CardMedia
                     component="img"
@@ -155,7 +160,6 @@ const DogContainer = (props) => {
             ))}
           </Grid>
         </Container>
-
       </Box>
     </>
   );
