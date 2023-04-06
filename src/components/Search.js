@@ -27,10 +27,6 @@ const Search = () => {
     ageList.push(i.toString());
   }
 
-  const viewResultsStart = () => {
-    return (currentPage - 1) * 25 + 1;
-  };
-
   const sortOptions = [
     { title: "Name A-Z", sortBy: "name:asc" },
     { title: "Name Z-A", sortBy: "name:desc" },
@@ -39,6 +35,10 @@ const Search = () => {
     { title: "Breed A-Z", sortBy: "breed:asc" },
     { title: "Breed Z-A", sortBy: "breed:desc" },
   ];
+
+  const viewResultsStart = () => {
+    return (currentPage - 1) * 25 + 1;
+  };
 
   // Get dog breeds (array)
   useEffect(() => {
@@ -99,7 +99,13 @@ const Search = () => {
       .catch((err) => console.log({ err }));
   };
 
-  // logout
+  // pagination
+  const onPageChange = (pageNumber) => {
+    search(pageNumber);
+    setCurrentPage(pageNumber);
+  };
+
+  // Logout
   const onLogout = () => {
     axiosWithAuth()
       .post(`/auth/logout`)
@@ -111,42 +117,54 @@ const Search = () => {
       .catch((err) => console.log({ err }));
   };
 
-  // pagination
-  const onPageChange = (pageNumber) => {
-    search(pageNumber);
-    setCurrentPage(pageNumber);
-  };
-
   return (
     <>
-      <Stack
-        direction="row"
-        justifyContent="space-between"
-        alignItems="center"
-        spacing={2}
-        sx={{ my: "2%", mx: "5%" }}
-      >
-        <Box>
-          <Typography variant="h2">Ready to See Some Pups?</Typography>
-          <Typography variant="subtitle1">
-            Type to filter by breed (you can choose more than 1!). Mark your
-            favorites good bois and girls, then <b>match</b> to meet your new
-            canine BFF!
-          </Typography>
-        </Box>
+      <header>
+        <Box maxWidth>
+          <Stack
+            direction="row"
+            justifyContent="space-around"
+            alignItems="flex-start"
+            spacing={2}
+            sx={{ my: "3%", mx: "5%" }}
+          >
+            <Box>
+              <Typography variant="h2">Ready to See Some Pups?</Typography>
+              <Typography variant="subtitle1">
+                Type to filter by breed (you can choose more than 1!). Mark your
+                favorites good bois and girls, then <b>match</b> to meet your
+                new canine BFF!
+              </Typography>
+            </Box>
 
-        <Button variant="outlined" onClick={onLogout}>
-          Logout
-        </Button>
-      </Stack>
+            <Button
+              variant="outlined"
+              onClick={onLogout}
+              sx={{
+                px: {
+                  xs: "10%",
+                  sm: "10%",
+                  md: "5%",
+                  lg: "3%",
+                  xl: "3%",
+                },
+              }}
+            >
+              Logout
+            </Button>
+          </Stack>
+        </Box>
+      </header>
 
       <Grid
         container
+        maxWidth
         columns={16}
         direction="row"
         justifyContent="center"
         alignItems="center"
         spacing={2}
+        sx={{ my: "1%", mx: 0 }}
       >
         <Grid item xs={16} sm={16} md={16} lg={8} xl={8}>
           <Autocomplete
@@ -216,47 +234,63 @@ const Search = () => {
           ></Autocomplete>
         </Grid>
       </Grid>
-      <Stack
+
+      <Grid
+        container
+        columns={15}
         direction="row"
         justifyContent="space-evenly"
-        alignItems="stretch"
+        alignItems="center"
         spacing={2}
-        sx={{ my: "2%" }}
+        sx={{ my: "1%", mx:0 }}
       >
-        <Typography>
-          Viewing {viewResultsStart()} -{" "}
-          {dogResults?.resultIds.length + viewResultsStart() - 1} of{" "}
-          {dogResults?.total} results
-        </Typography>
-        <Pagination
-          total={dogResults.total}
-          currentPage={currentPage}
-          onPageChange={onPageChange}
-        />
-      </Stack>
+        <Grid item xs={10} sm={10} md={5} lg={5} xl={5} align="center">
+          <Typography >
+            Viewing {viewResultsStart()} -{" "}
+            {dogResults?.resultIds.length + viewResultsStart() - 1} of{" "}
+            {dogResults?.total} results
+          </Typography>
+        </Grid>
+        <Grid item xs={10} sm={10} md={5} lg={5} xl={5}>
+          <Pagination
+            total={dogResults.total}
+            currentPage={currentPage}
+            onPageChange={onPageChange}
+          />
+        </Grid>
+      </Grid>
 
       <DogContainer
         dogResults={dogResults}
         setDogResults={setDogResults}
       ></DogContainer>
-      <Stack
-        direction="row"
-        justifyContent="space-evenly"
-        alignItems="stretch"
-        spacing={2}
-        sx={{ my: "2%" }}
-      >
-        <Typography>
-          Viewing {viewResultsStart()} -{" "}
-          {dogResults?.resultIds.length + viewResultsStart() - 1} of{" "}
-          {dogResults?.total} results
-        </Typography>
-        <Pagination
-          total={dogResults.total}
-          currentPage={currentPage}
-          onPageChange={onPageChange}
-        />
-      </Stack>
+
+      <footer>
+        <Grid
+          container
+          columns={15}
+          direction="row"
+          justifyContent="space-evenly"
+          alignItems="center"
+          spacing={2}
+          sx={{ my: "3%", mx:0 }}
+        >
+          <Grid item xs={10} sm={10} md={5} lg={5} xl={5} align="center">
+            <Typography >
+              Viewing {viewResultsStart()} -{" "}
+              {dogResults?.resultIds.length + viewResultsStart() - 1} of{" "}
+              {dogResults?.total} results
+            </Typography>
+          </Grid>
+          <Grid item xs={10} sm={10} md={5} lg={5} xl={5}>
+            <Pagination
+              total={dogResults.total}
+              currentPage={currentPage}
+              onPageChange={onPageChange}
+            />
+          </Grid>
+        </Grid>
+      </footer>
     </>
   );
 };

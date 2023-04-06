@@ -93,7 +93,7 @@ const DogContainer = (props) => {
     <>
       <Box maxWidth>
         <Container maxWidth={false} sx={{ width: '90%'}}>
-          <Button variant="outlined" onClick={onMatch} sx={{ my: "2%" }}>
+          <Button variant="outlined" onClick={onMatch} sx={{ my: '2%' }}>
             match me!
           </Button>
           <Dog dogMatch={dogMatch} open={open} handleClose={handleClose} />
@@ -104,6 +104,7 @@ const DogContainer = (props) => {
             direction="row"
             justifyContent="space-around"
             alignItems="stretch"
+            sx={{mb: '5%'}}
           >
             {dogs.map((dog) => (
               <Grid item xs={7.5} sm={7.5} md={5} lg={3} xl={3} >
