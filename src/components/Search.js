@@ -4,9 +4,11 @@ import { axiosWithAuth } from "../utilities/axiosWithAuth";
 import {
   Autocomplete,
   Button,
+  Box,
   Grid,
   TextField,
   Typography,
+  Stack,
 } from "@mui/material";
 import DogContainer from "./DogContainer";
 import Pagination from "./Pagination";
@@ -117,22 +119,32 @@ const Search = () => {
 
   return (
     <>
-      <Button variant="outlined" onClick={onLogout}>
-        Logout
-      </Button>
+      <Stack
+        direction="row"
+        justifyContent="space-between"
+        alignItems="center"
+        spacing={2}
+        sx={{ my: "2%", mx: "5%" }}
+      >
+        <Box>
+          <Typography variant="h2">Ready to See Some Pups?</Typography>
+          <Typography variant="subtitle1">
+            Type to filter by breed (you can choose more than 1!). Mark your
+            favorites good bois and girls, then <b>match</b> to meet your new
+            canine BFF!
+          </Typography>
+        </Box>
 
-      <h2>Ready to See Some Pups?</h2>
-      <p>
-        Type to filter by breed (you can choose more than 1!). Mark your
-        favorites good bois (and girls), then <b>match</b> to meet your new
-        canine BFF!
-      </p>
+        <Button variant="outlined" onClick={onLogout}>
+          Logout
+        </Button>
+      </Stack>
 
       <Grid
         container
         columns={16}
         direction="row"
-        justifyContent="flex-start"
+        justifyContent="center"
         alignItems="center"
         spacing={2}
       >
@@ -204,23 +216,47 @@ const Search = () => {
           ></Autocomplete>
         </Grid>
       </Grid>
-
-      <Typography>
-        Viewing {viewResultsStart()} -{" "}
-        {dogResults?.resultIds.length + viewResultsStart() - 1} of{" "}
-        {dogResults?.total} results
-      </Typography>
+      <Stack
+        direction="row"
+        justifyContent="space-evenly"
+        alignItems="stretch"
+        spacing={2}
+        sx={{ my: "2%" }}
+      >
+        <Typography>
+          Viewing {viewResultsStart()} -{" "}
+          {dogResults?.resultIds.length + viewResultsStart() - 1} of{" "}
+          {dogResults?.total} results
+        </Typography>
+        <Pagination
+          total={dogResults.total}
+          currentPage={currentPage}
+          onPageChange={onPageChange}
+        />
+      </Stack>
 
       <DogContainer
         dogResults={dogResults}
         setDogResults={setDogResults}
       ></DogContainer>
-
-      <Pagination
-        total={dogResults.total}
-        currentPage={currentPage}
-        onPageChange={onPageChange}
-      />
+      <Stack
+        direction="row"
+        justifyContent="space-evenly"
+        alignItems="stretch"
+        spacing={2}
+        sx={{ my: "2%" }}
+      >
+        <Typography>
+          Viewing {viewResultsStart()} -{" "}
+          {dogResults?.resultIds.length + viewResultsStart() - 1} of{" "}
+          {dogResults?.total} results
+        </Typography>
+        <Pagination
+          total={dogResults.total}
+          currentPage={currentPage}
+          onPageChange={onPageChange}
+        />
+      </Stack>
     </>
   );
 };

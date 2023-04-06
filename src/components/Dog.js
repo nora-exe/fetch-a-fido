@@ -1,5 +1,14 @@
 import React from "react";
-import { Box, Modal, Typography } from "@mui/material";
+import {
+  Box,
+  Container,
+  Card,
+  Modal,
+  Typography,
+  CardActions,
+  CardContent,
+  CardMedia,
+} from "@mui/material";
 import PinDrop from "@mui/icons-material/PinDrop";
 import PermContactCalendar from "@mui/icons-material/PermContactCalendar";
 
@@ -17,9 +26,10 @@ const Dog = (props) => {
   };
 
   return (
-    <div>
-      <Modal open={props.open} onClose={props.handleClose}>
-        <Box sx={style}>
+    <Box>
+		<Container>
+			<Modal open={props.open} onClose={props.handleClose}>
+        <Card sx={style}>
           <img
             src={props.dogMatch.img}
             alt={`picture of a ${props.dogMatch.breed} named ${props.dogMatch.name}`}
@@ -36,15 +46,20 @@ const Dog = (props) => {
               &nbsp;<b>{props.dogMatch.age}</b> year(s) old
               <br />
               <PinDrop />
-              &nbsp;I'm at <b>{props.dogMatch.zip_code}</b>
+              &nbsp;I live in{" "}
+              <b>
+                {props.dogMatch.city}, {props.dogMatch.state}
+              </b>
             </Typography>
             <Typography variant="body2" gutterBottom>
               I can't wait to meet you!
             </Typography>
           </Typography>
-        </Box>
+        </Card>
       </Modal>
-    </div>
+		</Container>
+      
+    </Box>
   );
 };
 

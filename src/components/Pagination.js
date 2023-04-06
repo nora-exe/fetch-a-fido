@@ -1,23 +1,18 @@
-import React from 'react';
-import classnames from 'classnames';
-import { usePagination, DOTS } from '../hooks/usePagination';
-import '../pagination.css';
+import React from "react";
+import classnames from "classnames";
+import { usePagination, DOTS } from "../hooks/usePagination";
+import "../pagination.css";
 
-const Pagination = props => {
-  const siblingCount = 1
-  const pageSize = 25 // default limit for search endpoint
-  const {
-    onPageChange,
-    total,
-    currentPage,
-    className
-  } = props;
+const Pagination = (props) => {
+  const siblingCount = 1;
+  const pageSize = 25; // default limit for search endpoint
+  const { onPageChange, total, currentPage, className } = props;
 
   const paginationRange = usePagination({
     currentPage,
     total,
     siblingCount,
-    pageSize
+    pageSize,
   });
 
   if (currentPage === 0 || paginationRange.length < 2) {
@@ -34,32 +29,36 @@ const Pagination = props => {
 
   let lastPage = paginationRange[paginationRange.length - 1];
 
-  if (total == 0) { return null; } else {
+  if (total == 0) {
+    return null;
+  } else {
     return (
       <ul
-        className={classnames('pagination-container', { [className]: className })}
+        className={classnames("pagination-container", {
+          [className]: className,
+        })}
       >
         {/* Left navigation arrow */}
         <li
-          className={classnames('pagination-item', {
-            disabled: currentPage === 1
+          className={classnames("pagination-item", {
+            disabled: currentPage === 1,
           })}
           onClick={onPrevious}
         >
           <div className="arrow left" />
         </li>
-        
-        {paginationRange.map(pageNumber => {
+
+        {paginationRange.map((pageNumber) => {
           // If the pageItem is a DOT, render the DOTS unicode character
           if (pageNumber === DOTS) {
             return <li className="pagination-item dots">&#8230;</li>;
           }
-      
+
           // Render Page pills
           return (
             <li
-              className={classnames('pagination-item', {
-                selected: pageNumber === currentPage
+              className={classnames("pagination-item", {
+                selected: pageNumber === currentPage,
               })}
               onClick={() => onPageChange(pageNumber)}
             >
@@ -67,11 +66,10 @@ const Pagination = props => {
             </li>
           );
         })}
-        
-        {/*  Right Navigation arrow */}
+
         <li
-          className={classnames('pagination-item', {
-            disabled: currentPage === lastPage
+          className={classnames("pagination-item", {
+            disabled: currentPage === lastPage,
           })}
           onClick={onNext}
         >
@@ -80,25 +78,6 @@ const Pagination = props => {
       </ul>
     );
   }
-}
+};
 
 export default Pagination;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// onclick on button
