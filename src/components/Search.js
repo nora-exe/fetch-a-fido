@@ -72,7 +72,7 @@ const Search = () => {
   // Sort Handling
   const handleSort = (event) => {
     setSortBy(
-      sortOptions.filter((option) => option.title == event.target.innerText)[0]
+      sortOptions.filter((option) => option.title === event.target.innerText)[0]
         .sortBy
     );
   };

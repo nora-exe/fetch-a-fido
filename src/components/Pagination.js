@@ -29,7 +29,7 @@ const Pagination = (props) => {
 
   let lastPage = paginationRange[paginationRange.length - 1];
 
-  if (total == 0) {
+  if (total === 0) {
     return null;
   } else {
     return (

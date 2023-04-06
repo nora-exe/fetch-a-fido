@@ -1,7 +1,5 @@
 import React from "react";
 import {
-  Box,
-  Container,
   Card,
   Modal,
   Typography,
