@@ -130,7 +130,7 @@ const Search = () => {
           >
             <Box>
               <Typography variant="h2">Ready to See Some Pups?</Typography>
-              <Typography variant="subtitle1">
+              <Typography variant="subtitle2">
                 Type to filter by breed (you can choose more than 1!). Mark your
                 favorites good bois and girls, then <b>match</b> to meet your
                 new canine BFF!
@@ -139,6 +139,7 @@ const Search = () => {
 
             <Button
               variant="outlined"
+              color="warning"
               onClick={onLogout}
               sx={{
                 px: {
@@ -245,7 +246,7 @@ const Search = () => {
         sx={{ my: "1%", mx:0 }}
       >
         <Grid item xs={10} sm={10} md={5} lg={5} xl={5} align="center">
-          <Typography >
+          <Typography  variant="subtitle2" color={'#5F6CAF'}>
             Viewing {viewResultsStart()} -{" "}
             {dogResults?.resultIds.length + viewResultsStart() - 1} of{" "}
             {dogResults?.total} results
@@ -276,7 +277,7 @@ const Search = () => {
           sx={{ my: "3%", mx:0 }}
         >
           <Grid item xs={10} sm={10} md={5} lg={5} xl={5} align="center">
-            <Typography >
+            <Typography variant="subtitle2">
               Viewing {viewResultsStart()} -{" "}
               {dogResults?.resultIds.length + viewResultsStart() - 1} of{" "}
               {dogResults?.total} results

@@ -93,7 +93,7 @@ const DogContainer = (props) => {
     <>
       <Box maxWidth>
         <Container maxWidth={false} sx={{ width: '90%'}}>
-          <Button variant="outlined" onClick={onMatch} sx={{ my: '2%' }}>
+          <Button variant="outlined" color="warning" onClick={onMatch} sx={{ my: '2%' }}>
             match me!
           </Button>
           <Dog dogMatch={dogMatch} open={open} handleClose={handleClose} />
@@ -144,6 +144,7 @@ const DogContainer = (props) => {
                       checked={dogSelect.indexOf(dog.id) > -1}
                       icon={<FavoriteBorder />}
                       checkedIcon={<Favorite />}
+                      color="warning"
                     />
                     <Typography variant="body2" color="text.secondary">
                       Favorite

@@ -7,17 +7,30 @@ $background-color_1: #F9F2ED;
 $background-color_2: #5F6CAF;
 
 header, footer {
-	background: $background-color_1;
-	overflow:hidden
+	overflow:hidden;
+	background: $background-color_2;
 }
 
-// :not(header, button) {
-// 	overflow: auto
-// }
+.MuiButton-outlined, .MuiButton-text, 	.MuiButton-outlinedWarning  {
+	border-color: white;
+}
 
-// .pagination-container {
-//     overflow: visible;
-// }
-// .pagination-item {
-//         overflow: visible;
-// }
+.MuiTypography-h2, .MuiTypography-h3 {
+	color: $color_3;
+}
+
+.MuiTypography-subtitle1 {
+	color: gray;
+}
+
+.MuiTypography-subtitle2 {
+	color: lightgray;
+}
+
+.MuiTypography-body1 {
+	color: black;
+}
+
+.MuiTypography-body2 {
+	color: gray;
+}

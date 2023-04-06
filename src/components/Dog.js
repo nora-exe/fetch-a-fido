@@ -18,20 +18,19 @@ const Dog = (props) => {
     left: "50%",
     transform: "translate(-50%, -50%)",
     width: 450,
-    bgcolor: "#F9F2ED",
-    // border: "1px solid #fff",
+    bgcolor: "#fff",
     boxShadow: 25,
   };
 
   return (
-    <Box>
-      <Container>
+    
         <Modal open={props.open} onClose={props.handleClose}>
           <Card sx={style}>
             <CardMedia
               component="img"
               image={props.dogMatch.img}
               alt={`picture of a ${props.dogMatch.breed} named ${props.dogMatch.name}`}
+              sx={{ height: 350 }}
             />
             <CardContent>
               <Typography id="modal-title" variant="h3">
@@ -40,7 +39,6 @@ const Dog = (props) => {
               <Typography id="modal-modal-description">
                 <Typography
                   variant="subtitle1"
-                  color="text.secondary"
                   gutterBottom
                 >
                   {props.dogMatch.breed}
@@ -55,15 +53,14 @@ const Dog = (props) => {
                     {props.dogMatch.city}, {props.dogMatch.state}
                   </b>
                 </Typography>
-                <Typography variant="body1" color="text.secondary" gutterBottom>
+                <Typography variant="subtitle1" gutterBottom>
                   I can't wait to meet you!
                 </Typography>
               </Typography>
             </CardContent>
           </Card>
         </Modal>
-      </Container>
-    </Box>
+      
   );
 };
 
