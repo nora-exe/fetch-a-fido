@@ -131,8 +131,8 @@ const Search = () => {
             <Box>
               <Typography variant="h2">Ready to See Some Pups?</Typography>
               <Typography variant="subtitle2">
-                Type to filter by breed (you can choose more than 1!). Mark your
-                favorites good bois and girls, then <b>match</b> to meet your
+                Type to filter by breed (you can choose more than 1!) Mark your
+                favorite good bois and girls, then <b>match</b> to meet your
                 new canine BFF!
               </Typography>
             </Box>
