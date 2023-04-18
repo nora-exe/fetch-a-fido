@@ -23,3 +23,5 @@ npm start
 ## preview
 
 ![preview](https://raw.githubusercontent.com/nora-exe/fetch-a-fido/main/public/preview-fetch-fido.gif)
+
+Preview made using Loom.
