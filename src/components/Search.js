@@ -244,7 +244,7 @@ const Search = () => {
                 {...params}
                 variant="outlined"
                 label="Sort By"
-                placeholder="Name"
+                placeholder="Select"
               />
             )}
           ></Autocomplete>

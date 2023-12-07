@@ -7,6 +7,8 @@ Users enter name and email on a login screen. When authenticated, user lands on 
 
 Color palette is based off [Fetch Rewards](https://fetch.com/).
 
+[Deployed with Vercel.](https://fetch-a-fido.vercel.app/)
+
 ***
 
 ## 🐶 local setup
@@ -19,4 +21,7 @@ npm start
 ```
 
 ## preview
+
 ![preview](https://raw.githubusercontent.com/nora-exe/fetch-a-fido/main/public/preview-fetch-fido.gif)
+
+Preview made using Loom.
