@@ -1,12 +1,14 @@
+// tutorial from https://www.freecodecamp.org/news/build-a-custom-pagination-component-in-react/
+
 import React from "react";
 import classnames from "classnames";
 import { usePagination, DOTS } from "../hooks/usePagination";
 import "../pagination.css";
 
 const Pagination = (props) => {
-  const siblingCount = 1;
+  const siblingCount = 1; // whats next to the current page #
   const pageSize = 25; // default limit for search endpoint
-  const { onPageChange, total, currentPage, className } = props;
+  const { onPageChange, total, currentPage, className } = props; // prop explosion
 
   const paginationRange = usePagination({
     currentPage,
@@ -38,7 +40,7 @@ const Pagination = (props) => {
           [className]: className,
         })}
       >
-        {/* Left navigation arrow */}
+        {/* Left navigation arrow - if on first page, disable */}
         <li
           className={classnames("pagination-item", {
             disabled: currentPage === 1,
@@ -67,6 +69,7 @@ const Pagination = (props) => {
           );
         })}
 
+        {/* Right navigation arrow - if on last page, disable */}
         <li
           className={classnames("pagination-item", {
             disabled: currentPage === lastPage,

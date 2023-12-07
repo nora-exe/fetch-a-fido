@@ -19,6 +19,7 @@ const LoginForm = (props) => {
 
   const navigate = useNavigate();
 
+  // handler to enable/disable submit button - check state in name/email fields, conditional and boolean
   const _onChange = (event) => {
     setLogin({
       ...login,
@@ -30,6 +31,7 @@ const LoginForm = (props) => {
     });
   };
 
+  // check for 200 and pass TRUE loggedin state up so we can nav to search (protected). WISHLIST: SNACKBAR ALERT on auth success or fail
   const _onSubmit = () => {
     axiosWithAuth()
       .post("/auth/login", { name: login.name, email: login.email })
@@ -42,6 +44,7 @@ const LoginForm = (props) => {
       .catch((err) => console.log({ err }));
   };
 
+  // 2 grids 1 for page 1 for forms; responsive, flexible, handles breakpoints well. Also utilizes typography, text fields, and CONDITIONAL button from MUI
   return (
     <>
       <Grid
@@ -50,6 +53,7 @@ const LoginForm = (props) => {
         alignItems="center"
         sx={{ mt: "10%", ml: 0, height: 600 }}
       >
+
         <Grid
           container
           columns={10}
@@ -60,6 +64,11 @@ const LoginForm = (props) => {
           sx={{ width: "60%", borderRadius: "16px" }}
           bgcolor="lightgray"
         >
+            <Typography align="center" variant="h1" sx={{mt: "1em"}}>
+              <b>
+              Log in to see some dogs!
+              </b>
+            </Typography>
           <Grid
             item
             xs={10}
@@ -70,9 +79,6 @@ const LoginForm = (props) => {
             align="center"
             sx={{ px: 5, py: 5 }}
           >
-            <Typography align="center" color="#FF8364" variant="h4">
-              Log in to see some dogs!
-            </Typography>
           </Grid>
           <Grid
             item
@@ -126,7 +132,6 @@ const LoginForm = (props) => {
               disabled={!login.canSubmit}
               onClick={_onSubmit}
               variant="contained"
-              color="warning"
             >
               Log In
             </Button>

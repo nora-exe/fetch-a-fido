@@ -14,3 +14,9 @@ const container = document.getElementById("root");
 const root = ReactDOMClient.createRoot(container);
 
 root.render(<App />);
+
+/**
+ * basic setup
+ * import react, dom client, app, fonts, link stylesheet
+ * creating root element, binding DOM to root, rendering app on root
+ */

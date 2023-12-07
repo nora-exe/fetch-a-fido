@@ -18,8 +18,8 @@ import FavoriteBorder from "@mui/icons-material/FavoriteBorder";
 
 const DogContainer = (props) => {
   const [dogs, setDogs] = useState([]);
-  const [dogSelect, setDogSelect] = useState([]);
-  const [dogMatch, setDogMatch] = useState({
+  const [dogSelect, setDogSelect] = useState([]); // for favorites
+  const [dogMatch, setDogMatch] = useState({ // for match and dog cards
     id: "",
     img: "",
     name: "",
@@ -30,24 +30,25 @@ const DogContainer = (props) => {
     state: "",
   });
 
+  // handlers for MUI modal
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
-  // convert zip_codes to city and state
+  // * convert zip_codes to city and state
   const getCities = (data) => {
-    const uniqueZips = [...new Set(data.map((item) => item.zip_code))];
-    return axiosWithAuth()
+    const uniqueZips = [...new Set(data.map((item) => item.zip_code))]; // take data passed to getCities and map to return array of the zips from each {dog} and Set to UNIQUE ZIP instead of lots of the same zip. then itll convert the zips to a more READABLE city and state from the location endpoint. ultimately return new array of [{dog}] with the replaced zips for city/state
+    return axiosWithAuth() // this is a promise, when resolved is data
       .post(`/locations`, uniqueZips)
       .then((res) => {
         return data.map((item) => {
           let locationMatch = res.data.filter((loc) =>
             loc !== null ? loc.zip_code === item.zip_code : false
           )[0];
-          if (locationMatch === undefined) {
+          if (locationMatch === undefined) { // this is to accommodate the case where zip doesn't correspond to a traditional city/state like military FPOs. (blame Sigurd 🐶)
             item["city"] = "Zip Code";
             item["state"] = item.zip_code;
-          } else {
+          } else { // proceed normally for normal data
             item["city"] = locationMatch.city;
             item["state"] = locationMatch.state;
           }
@@ -95,7 +96,6 @@ const DogContainer = (props) => {
         <Container maxWidth={false} sx={{ width: "90%" }}>
           <Button
             variant="outlined"
-            color="warning"
             onClick={onMatch}
             sx={{ my: "2%" }}
           >
@@ -116,7 +116,7 @@ const DogContainer = (props) => {
                 <Card>
                   <CardMedia
                     component="img"
-                    alt={dog.breed}
+                    alt={`A ${dog.breed} named ${dog.name}.`}
                     height="200"
                     image={dog.img}
                   />
@@ -149,7 +149,6 @@ const DogContainer = (props) => {
                       checked={dogSelect.indexOf(dog.id) > -1}
                       icon={<FavoriteBorder />}
                       checkedIcon={<Favorite />}
-                      color="warning"
                     />
                     <Typography variant="body2" color="text.secondary">
                       Favorite

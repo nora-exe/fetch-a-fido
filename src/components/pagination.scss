@@ -7,7 +7,7 @@
       height: 32px;
       text-align: center;
       margin: auto 4px;
-      color: #FFB677;
+      color: black;
       display: flex;
       box-sizing: border-box;
       align-items: center;
@@ -55,8 +55,8 @@
         pointer-events: none;
   
         .arrow::before {
-          border-right: 0.12em solid #FFB677;
-          border-top: 0.12em solid #FFB677;
+          border-right: 0.12em solid black;
+          border-top: 0.12em solid black;
         }
   
         &:hover {

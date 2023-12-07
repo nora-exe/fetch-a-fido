@@ -1,30 +1,7 @@
 header, footer {
   overflow: hidden;
-  background: #5F6CAF;
-}
-
-.MuiButton-outlined, .MuiButton-text, .MuiButton-outlinedWarning {
-  border-color: white;
-}
-
-.MuiTypography-h2, .MuiTypography-h3 {
-  color: #FF8364;
-}
-
-.MuiTypography-subtitle1 {
-  color: gray;
-}
-
-.MuiTypography-subtitle2 {
-  color: lightgray;
-}
-
-.MuiTypography-body1 {
-  color: black;
-}
-
-.MuiTypography-body2 {
-  color: gray;
+  background: #c8f4d0;
+  /* background: #f0fff3; */
 }
 
 /*# sourceMappingURL=App.css.map */

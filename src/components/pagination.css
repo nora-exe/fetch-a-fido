@@ -7,7 +7,7 @@
   height: 32px;
   text-align: center;
   margin: auto 4px;
-  color: #FFB677;
+  color: #000000;
   display: flex;
   box-sizing: border-box;
   align-items: center;
@@ -48,8 +48,8 @@
   pointer-events: none;
 }
 .pagination-container .pagination-item.disabled .arrow::before {
-  border-right: 0.12em solid #FFB677;
-  border-top: 0.12em solid #FFB677;
+  border-right: 0.12em solid #000000;
+  border-top: 0.12em solid #000000;
 }
 .pagination-container .pagination-item.disabled:hover {
   background-color: transparent;

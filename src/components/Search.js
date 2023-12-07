@@ -1,3 +1,9 @@
+/** Notes - Search
+ * basically home page the bulk of the application logic
+ * calls 2 components DogContainer and Pagination because of how my state logic works and what functions need to know what
+ * like paginator needs to know which page its on based on running the search, etc
+ */
+
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { axiosWithAuth } from "../utilities/axiosWithAuth";
@@ -15,18 +21,22 @@ import Pagination from "./Pagination";
 
 const Search = () => {
   const navigate = useNavigate();
+  // not required at render or filled at render
   const [breeds, setBreeds] = useState([]); //dropdown
   const [breedsSelect, setBreedsSelect] = useState([]); //selected within dropdown
+  const [sortBy, setSortBy] = useState();
+  // set defaults needed for render
   const [dogResults, setDogResults] = useState({ resultIds: [], total: 0 }); //store searched results (as object) to POST to get dogs
   const [currentPage, setCurrentPage] = useState(1); // pagination default
-  const [ageSelect, setAgeSelect] = useState({ ageMin: null, ageMax: null });
-  const [sortBy, setSortBy] = useState();
+  const [ageSelect, setAgeSelect] = useState({ ageMin: null, ageMax: null }); // age selector default
 
+  // set array for age list dropdowns
   let ageList = [];
   for (let i = 0; i <= 20; i++) {
     ageList.push(i.toString());
   }
 
+  // populate sort options for sort dropdown and sortBy (title joined to sortby ex. name a-z = name:asc)
   const sortOptions = [
     { title: "Name A-Z", sortBy: "name:asc" },
     { title: "Name Z-A", sortBy: "name:desc" },
@@ -36,11 +46,12 @@ const Search = () => {
     { title: "Breed Z-A", sortBy: "breed:desc" },
   ];
 
+  // Logic to show many results you're viewing
   const viewResultsStart = () => {
     return (currentPage - 1) * 25 + 1;
   };
 
-  // Get dog breeds (array)
+  // Get dog breeds (array) to populate dropdown on render
   useEffect(() => {
     axiosWithAuth()
       .get(`/dogs/breeds`)
@@ -50,26 +61,28 @@ const Search = () => {
       .catch((err) => console.log({ err }));
   }, []);
 
-  // Search on criteria update
+  // Search on criteria update (whenever state of criteria is changed, search)
   useEffect(() => {
-    search(1);
+    search(1); // START AT P1 and set PAGINATOR to 1
     setCurrentPage(1);
-  }, [breedsSelect, ageSelect, sortBy]);
+  }, [breedsSelect, ageSelect, sortBy]); // watch these criteria
 
   // Set selected breeds to state
   const handleBreedSelect = (event, value) => {
-    setBreedsSelect(value);
+    setBreedsSelect(value); // value is a string representing every selected breed for select; if de-select, it gets dropped off string, thx to MUI 
   };
 
   // Age handling
   const handleMinAge = (event, value) => {
-    setAgeSelect({ ...ageSelect, ageMin: value });
+    setAgeSelect({ ...ageSelect, ageMin: value }); // we DO need to expand existing elements to update ONE of them keeping the OTHERs value
   };
   const handleMaxAge = (event, value) => {
     setAgeSelect({ ...ageSelect, ageMax: value });
   };
 
-  // Sort Handling
+  // ^ IMPROVEMENT: single handler ideally, but couldn't get it to work
+
+  // Sort Handling - [{title, sortBy}] - basically filter options array by titles that match the selector "innerText" to get the sortBy criteria for what we click in the dropdown, then take the 1st element 
   const handleSort = (event) => {
     setSortBy(
       sortOptions.filter((option) => option.title === event.target.innerText)[0]
@@ -78,7 +91,7 @@ const Search = () => {
   };
 
   // Run search
-  const search = (pageNumber) => {
+  const search = (pageNumber) => { // this watches the criteria and runs on update
     let params = {
       breeds: breedsSelect,
       sort: sortBy,
@@ -88,7 +101,7 @@ const Search = () => {
       params["ageMin"] = ageSelect.ageMin;
     }
     if (ageSelect.ageMax !== null) {
-      params["ageMax"] = ageSelect.ageMax;
+      params["ageMax"] = ageSelect.ageMax; // creating a param to pass up for params.ageMax
     }
 
     axiosWithAuth()
@@ -101,11 +114,11 @@ const Search = () => {
 
   // pagination
   const onPageChange = (pageNumber) => {
-    search(pageNumber);
-    setCurrentPage(pageNumber);
+    search(pageNumber); // rerun w new page number
+    setCurrentPage(pageNumber); // set state with new page number for Pagination.js
   };
 
-  // Logout
+  // Logout - API does its thing behind the curtain idk
   const onLogout = () => {
     axiosWithAuth()
       .post(`/auth/logout`)
@@ -129,27 +142,29 @@ const Search = () => {
             sx={{ my: "3%", mx: "5%" }}
           >
             <Box>
-              <Typography variant="h2">Ready to See Some Pups?</Typography>
-              <Typography variant="subtitle2">
-                Type to filter by breed (you can choose more than 1!). Mark your
+              <Typography variant="h1" gutterBottom sx={{color: "#1A1001"}}><b>Ready to See Some Pups?</b></Typography>
+              <Typography variant="subtitle1" gutterBottom>
+                Type to filter by breed (you can choose more than 1!).
+              </Typography>
+              <Typography variant="subtitle1">
+              Mark your
                 favorites good bois and girls, then <b>match</b> to meet your
                 new canine BFF!
               </Typography>
             </Box>
 
             <Button
-              variant="outlined"
-              color="warning"
+              variant="contained"
               onClick={onLogout}
-              sx={{
-                px: {
-                  xs: "10%",
-                  sm: "10%",
-                  md: "5%",
-                  lg: "3%",
-                  xl: "3%",
-                },
-              }}
+              // sx={{
+              //   px: {
+              //     xs: "10%",
+              //     sm: "10%",
+              //     md: "5%",
+              //     lg: "3%",
+              //     xl: "3%",
+              //   },
+              // }}
             >
               Logout
             </Button>
@@ -245,8 +260,9 @@ const Search = () => {
         spacing={2}
         sx={{ my: "1%", mx: 0 }}
       >
+        {/* results component with some quickmaths passed in, array length, and total results - check out Pagination.js */}
         <Grid item xs={10} sm={10} md={5} lg={5} xl={5} align="center">
-          <Typography variant="subtitle2" color={"#FFB677"}>
+          <Typography variant="h3">
             Viewing {viewResultsStart()} -{" "}
             {dogResults?.resultIds.length + viewResultsStart() - 1} of{" "}
             {dogResults?.total} results
@@ -277,7 +293,7 @@ const Search = () => {
           sx={{ my: "3%", mx: 0 }}
         >
           <Grid item xs={10} sm={10} md={5} lg={5} xl={5} align="center">
-            <Typography variant="subtitle2">
+            <Typography variant="body1">
               Viewing {viewResultsStart()} -{" "}
               {dogResults?.resultIds.length + viewResultsStart() - 1} of{" "}
               {dogResults?.total} results
