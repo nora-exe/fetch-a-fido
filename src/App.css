@@ -1,6 +1,7 @@
 header, footer {
   overflow: hidden;
-  background: #c8f4d0;
+  background: rgb(250, 235, 229);
+  /* background: #c8f4d0; */
   /* background: #f0fff3; */
 }
 
