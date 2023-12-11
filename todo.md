@@ -4,6 +4,8 @@
 * landing page other than Login form
 * route to view user data
 * route to view favorite dogs
+* meet accessibility standards
+* utilize MongoDB for API and integrate with Vercel
 
 ## Search
 * search by location
